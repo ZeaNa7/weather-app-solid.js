@@ -6,6 +6,7 @@ function App() {
   const [tempActuelle, setTempActuelle] = createSignal('');
   const [heureLever, setHeureLever] = createSignal('');
   const [heureCoucher, setHeureCoucher] = createSignal('');
+  const [icon, setIcon] = createSignal('');
 
   function fetchMeteo() {
     const city = cityName();
@@ -16,6 +17,7 @@ function App() {
       .then(function (jsonData) {
         setCityName(jsonData.city_info.name);
         setDateActuelle(jsonData.current_condition.date);
+        setIcon(jsonData.current_condition.icon_big);
         setTempActuelle(jsonData.current_condition.tmp);
         setHeureLever(jsonData.city_info.sunrise);
         setHeureCoucher(jsonData.city_info.sunset);
@@ -34,6 +36,7 @@ function App() {
         <div class="weather-info">
           <h2>{cityName()}</h2>
           <p>Bonjour, nous sommes le {dateActuelle()} et la température actuelle est de <span class="temperature">{tempActuelle()}°C</span>.</p>
+          {icon() === '' ? '' : <img src={icon()} alt="icon" /> }
           <p>Le soleil se lèvera à {heureLever()} et se couchera à {heureCoucher()}.</p>
         </div>
       )}
